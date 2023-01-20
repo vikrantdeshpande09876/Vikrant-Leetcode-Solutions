@@ -1,8 +1,8 @@
 class Solution {
-    public boolean isValidWindow(Map<Character,Integer> hmap, int k, int totalChars){
+    public boolean isValidWindow(int[] hmap, int k, int totalChars){
         int maxFreq = 0;
-        for (Character c : hmap.keySet())
-            maxFreq = Math.max(maxFreq, hmap.get(c));
+        for (int cnt : hmap)
+            maxFreq = Math.max(maxFreq, cnt);
         return (totalChars-maxFreq) <= k;
     }
     
@@ -12,20 +12,17 @@ class Solution {
             return maxWindow;
         
         int r = 1, l = 0;
-        Map<Character,Integer> hmap = new HashMap<>();
-        hmap.put(s.charAt(l), 1);
-        hmap.put(s.charAt(r), hmap.getOrDefault(s.charAt(r), 0)+1);
+        int[] hmap = new int[26];
+        hmap[s.charAt(l)-'A'] = 1;
+        hmap[s.charAt(r)-'A'] = hmap[s.charAt(r)-'A'] + 1;
         while (r < s.length()-1){
             if (isValidWindow(hmap, k, r-l+1)){
                 maxWindow = Math.max(maxWindow, r-l+1);
                 r++;
-                hmap.put(s.charAt(r), hmap.getOrDefault(s.charAt(r), 0)+1);
-                // System.out.println(l+" , "+r+" , "+(r-l+1));
+                hmap[s.charAt(r)-'A'] = hmap[s.charAt(r)-'A'] + 1;
             }
             else {
-                hmap.put(s.charAt(l), hmap.get(s.charAt(l))-1);
-                if (hmap.get(s.charAt(l)) <= 0)
-                    hmap.remove(s.charAt(l));
+                hmap[s.charAt(l)-'A'] = hmap[s.charAt(l)-'A'] - 1;
                 l++;
             }
         }
