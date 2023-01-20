@@ -18,12 +18,10 @@ class Solution {
         while (r < s.length()-1){
             if (isValidWindow(hmap, k, r-l+1)){
                 maxWindow = Math.max(maxWindow, r-l+1);
-                r++;
-                hmap[s.charAt(r)-'A'] = hmap[s.charAt(r)-'A'] + 1;
+                hmap[s.charAt(++r)-'A']++;
             }
             else {
-                hmap[s.charAt(l)-'A'] = hmap[s.charAt(l)-'A'] - 1;
-                l++;
+                hmap[s.charAt(l++)-'A']--;
             }
         }
         if ((r == s.length()-1) && (isValidWindow(hmap, k, r-l+1)))
