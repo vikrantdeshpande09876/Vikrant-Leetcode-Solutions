@@ -32,7 +32,6 @@ public class Codec {
             res.append("-");
         }
         String result = res.substring(0, res.length()-1).toString();
-        // System.out.println(result);
         return result;
     }
 
@@ -52,7 +51,6 @@ public class Codec {
             String l = arrData[i];
             if (!l.equals("*")){
                 String r = arrData[++i];
-                // System.out.println("l="+l+" and r="+r);
                 TreeNode curr = q.poll();
                 if (!l.equals("#")){
                     curr.left = new TreeNode(Integer.valueOf(l));
@@ -73,25 +71,3 @@ public class Codec {
         return root;
     }
 }
-/*
-[120,11,331,2,12,310,450,1]
-        12
-    11
-10
-Level-order
-'12-*-11-#-*-10-#-*-#-#-*'
-
-12 [12]
-12.left = 11 , 12.right = # [11]
-11.left = 10 , 11.right = # [10]
-10.left = #  , 10.right = # []
-*/
-
-
-
-// Your Codec object will be instantiated and called as such:
-// Codec ser = new Codec();
-// Codec deser = new Codec();
-// String tree = ser.serialize(root);
-// TreeNode ans = deser.deserialize(tree);
-// return ans;
