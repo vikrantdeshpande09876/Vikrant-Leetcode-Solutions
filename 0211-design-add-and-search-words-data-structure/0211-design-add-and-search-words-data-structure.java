@@ -21,7 +21,7 @@ class WordDictionary {
     }
     
     
-    public boolean searchBFS(String word, int i, TrieNode curr){
+    public boolean searchDFS(String word, int i, TrieNode curr){
         if (i == word.length())
             return curr.hmap[26] != null;
         
@@ -29,18 +29,18 @@ class WordDictionary {
         if (word.charAt(i) != '.'){
             if (curr.hmap[index] == null)
                 return false;
-            return searchBFS( word, i+1, curr.hmap[index] );
+            return searchDFS( word, i+1, curr.hmap[index] );
         }
 
         for (int j=0; j<27; j++){
-            if ( (curr.hmap[j] != null) && searchBFS( word, i+1, curr.hmap[j] ) )
+            if ( (curr.hmap[j] != null) && searchDFS( word, i+1, curr.hmap[j] ) )
                 return true;
         }
         return false;
     }
     
     public boolean search(String word) {
-        return searchBFS(word, 0, this.root);
+        return searchDFS(word, 0, this.root);
     }
 }
 
