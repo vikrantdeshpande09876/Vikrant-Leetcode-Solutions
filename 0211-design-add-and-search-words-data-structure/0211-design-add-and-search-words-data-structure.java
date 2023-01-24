@@ -1,10 +1,7 @@
 class TrieNode {
-    // Map<Character,TrieNode> hmap = new HashMap<>();
-    TrieNode[] hmap;
-    public TrieNode(){
-        hmap = new TrieNode[26+1];
-    }
+    TrieNode[] hmap = new TrieNode[26+1];
 }
+
 class WordDictionary {
     TrieNode root;
     
@@ -24,27 +21,26 @@ class WordDictionary {
     }
     
     
-    public boolean searchBFS(String word, int i, TrieNode curr, char prev){
+    public boolean searchBFS(String word, int i, TrieNode curr){
         if (i == word.length())
             return curr.hmap[26] != null;
         
-        char c = word.charAt(i);
-        int index = c-'a';
-        if (c != '.'){
+        int index = word.charAt(i)-'a';
+        if (word.charAt(i) != '.'){
             if (curr.hmap[index] == null)
                 return false;
-            return searchBFS( word, i+1, curr.hmap[index], c );
+            return searchBFS( word, i+1, curr.hmap[index] );
         }
 
         for (int j=0; j<27; j++){
-            if ( (curr.hmap[j] != null) && searchBFS( word, i+1, curr.hmap[j], (char)(j+'a') ) )
+            if ( (curr.hmap[j] != null) && searchBFS( word, i+1, curr.hmap[j] ) )
                 return true;
         }
         return false;
     }
     
     public boolean search(String word) {
-        return searchBFS(word, 0, this.root, '-');
+        return searchBFS(word, 0, this.root);
     }
 }
 
