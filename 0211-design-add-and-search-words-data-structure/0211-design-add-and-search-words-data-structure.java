@@ -1,5 +1,9 @@
 class TrieNode {
-    Map<Character,TrieNode> hmap = new HashMap<>();
+    // Map<Character,TrieNode> hmap = new HashMap<>();
+    TrieNode[] hmap;
+    public TrieNode(){
+        hmap = new TrieNode[26+1];
+    }
 }
 class WordDictionary {
     TrieNode root;
@@ -11,26 +15,31 @@ class WordDictionary {
     public void addWord(String word) {
         TrieNode curr = this.root;
         for (char c : word.toCharArray()){
-            curr.hmap.putIfAbsent(c, new TrieNode());
-            curr = curr.hmap.get(c);
+            int index = c-'a';
+            if (curr.hmap[index] == null)
+                curr.hmap[index] = new TrieNode();
+            curr = curr.hmap[index];
         }
-        curr.hmap.put('#', null);
+        curr.hmap[26] = new TrieNode();
     }
     
     
     public boolean searchBFS(String word, int i, TrieNode curr, char prev){
         if (i == word.length())
-            return curr.hmap.containsKey('#');
+            return curr.hmap[26] != null;
         
-        if (word.charAt(i) != '.'){
-            if (!curr.hmap.containsKey(word.charAt(i)))
+        char c = word.charAt(i);
+        int index = c-'a';
+        if (c != '.'){
+            if (curr.hmap[index] == null)
                 return false;
-            return searchBFS( word, i+1, curr.hmap.get(word.charAt(i)), word.charAt(i) );
+            return searchBFS( word, i+1, curr.hmap[index], c );
         }
 
-        for (char c : curr.hmap.keySet())
-            if ( c != '#' && searchBFS( word, i+1, curr.hmap.get(c), c ) )
+        for (int j=0; j<27; j++){
+            if ( (curr.hmap[j] != null) && searchBFS( word, i+1, curr.hmap[j], (char)(j+'a') ) )
                 return true;
+        }
         return false;
     }
     
