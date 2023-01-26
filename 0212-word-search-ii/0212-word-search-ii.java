@@ -23,15 +23,14 @@ class Solution {
     }
 
     
-    public void dfs(char[][] board, int i, int j, int m, int n, String currWord, TrieNode node){
+    public void dfs(char[][] board, int i, int j, String currWord, TrieNode node){
         if (i>=board.length || j>=board[0].length || i<0 || j<0 || board[i][j]=='#')
             return;
         
         // System.out.println("board["+i+"]["+j+"]="+board[i][j]+", currWord="+currWord+", isWord="+node.isWord);
         
         char temp = board[i][j];
-        int charIndex = temp-'a';
-        node = node.hmap[charIndex];
+        node = node.hmap[temp-'a'];
         if (node==null)
             return;
 
@@ -40,25 +39,23 @@ class Solution {
             this.res.add(currWord);
         
         board[i][j] = '#';
-        dfs(board, i+1, j, m, n, currWord, node);
-        dfs(board, i-1, j, m, n, currWord, node);
-        dfs(board, i, j+1, m, n, currWord, node);
-        dfs(board, i, j-1, m, n, currWord, node);
+        dfs(board, i+1, j, currWord, node);
+        dfs(board, i-1, j, currWord, node);
+        dfs(board, i, j+1, currWord, node);
+        dfs(board, i, j-1, currWord, node);
         board[i][j] = temp;
     }
     
     
     public List<String> findWords(char[][] board, String[] words) {
-        int m = board.length;
-        int n = board[0].length;
         this.res = new HashSet<>();
         this.root = new TrieNode();
         for (String word : words)
             insertIntoTrie(word);
         
-        for (int i=0; i<m; i++){
-            for (int j=0; j<n; j++)
-                dfs(board, i, j, m, n, "", this.root);
+        for (int i=0; i<board.length; i++){
+            for (int j=0; j<board[0].length; j++)
+                dfs(board, i, j, "", this.root);
         }
         
         List<String> output = new ArrayList<>();
@@ -68,12 +65,17 @@ class Solution {
     }
 }
 /*
+Test-cases:
+
 [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
 ["oath","pea","eat","rain"]
+
 [["a","b"],["c","d"]]
 ["abcb"]
+
 [["a","b","c"],["a","e","d"],["a","f","g"]]
 ["eaafgdcba","eaabcdgfa"]
+
 [["a","a"]]
 ["aaa"]
 */
