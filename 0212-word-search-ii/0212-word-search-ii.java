@@ -23,7 +23,7 @@ class Solution {
     }
 
     
-    public void dfs(char[][] board, int i, int j, String currWord, TrieNode node){
+    public void dfs(char[][] board, int i, int j, StringBuilder currWord, TrieNode node){
         if (i>=board.length || j>=board[0].length || i<0 || j<0 || board[i][j]=='#')
             return;
         
@@ -34,9 +34,9 @@ class Solution {
         if (node==null)
             return;
 
-        currWord += board[i][j];
+        currWord.append(board[i][j]);
         if (node.isWord)
-            this.res.add(currWord);
+            this.res.add(currWord.toString());
         
         board[i][j] = '#';
         dfs(board, i+1, j, currWord, node);
@@ -44,6 +44,7 @@ class Solution {
         dfs(board, i, j+1, currWord, node);
         dfs(board, i, j-1, currWord, node);
         board[i][j] = temp;
+        currWord.deleteCharAt(currWord.length()-1);
     }
     
     
@@ -55,7 +56,7 @@ class Solution {
         
         for (int i=0; i<board.length; i++){
             for (int j=0; j<board[0].length; j++)
-                dfs(board, i, j, "", this.root);
+                dfs(board, i, j, new StringBuilder(""), this.root);
         }
         
         List<String> output = new ArrayList<>();
