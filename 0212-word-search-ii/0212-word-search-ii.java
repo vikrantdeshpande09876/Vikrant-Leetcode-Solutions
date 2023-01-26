@@ -9,7 +9,7 @@ class TrieNode {
 }
 
 class Solution {
-    HashSet<String> res;
+    List<String> res;
     TrieNode root;
     
     public void insertIntoTrie(String word){
@@ -35,8 +35,10 @@ class Solution {
             return;
 
         currWord.append(board[i][j]);
-        if (node.isWord)
+        if (node.isWord){
+            node.isWord = false;
             this.res.add(currWord.toString());
+        }
         
         board[i][j] = '#';
         dfs(board, i+1, j, currWord, node);
@@ -49,7 +51,7 @@ class Solution {
     
     
     public List<String> findWords(char[][] board, String[] words) {
-        this.res = new HashSet<>();
+        this.res = new ArrayList<>();
         this.root = new TrieNode();
         for (String word : words)
             insertIntoTrie(word);
@@ -59,10 +61,7 @@ class Solution {
                 dfs(board, i, j, new StringBuilder(""), this.root);
         }
         
-        List<String> output = new ArrayList<>();
-        for (String x : this.res)
-            output.add(x);
-        return output;
+        return res;
     }
 }
 /*
