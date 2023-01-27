@@ -1,12 +1,19 @@
 class Solution {
-    Map<Character,Integer> tMap = new HashMap<>();
+    int[] tMap = new int[52];
     
-    public boolean isValidWindow(Map<Character,Integer> windowMap){
-        for (char key : this.tMap.keySet()){
-            if (windowMap.getOrDefault(key, 0) < this.tMap.get(key))
+    public boolean isValidWindow(int[] windowMap){
+        for (int i=0; i<52; i++){
+            if (windowMap[i] < this.tMap[i])
                 return false;
         }
         return true;
+    }
+    
+    public int getIndexFromChar(char c){
+        int index = c-'A'-6;
+        if (c > 'Z')
+            return index;
+        return index+26;
     }
     
     public String minWindow(String s, String t) {
@@ -16,30 +23,36 @@ class Solution {
             return t.charAt(0) == s.charAt(0) ? t : "";
 
         Deque<Integer> q = new ArrayDeque<>();
-        Map<Character,Integer> wMap = new HashMap<>();
+        int index;
+        int[] wMap = new int[52];
         
-        for (char c : t.toCharArray())
-            this.tMap.put(c, this.tMap.getOrDefault(c,0) + 1);
+        for (char c : t.toCharArray()){
+            index = getIndexFromChar(c);
+            this.tMap[index] = this.tMap[index] + 1;
+        }
         
         int i=0, j=0;
         char cR, cL;
         for (; j < s.length(); j++){
             cR = s.charAt(j);
-            if ( this.tMap.containsKey(cR) ){
-                wMap.put(cR, wMap.getOrDefault(cR, 0) + 1);
+            index = getIndexFromChar(cR);
+            if ( this.tMap[index] > 0 ){
+                wMap[index] = wMap[index] + 1;
                 break;
             }
         }
         i = j++;
-        int minL=i, minR=i, minLen = Integer.MAX_VALUE;
         
+        int minL=i, minR=i, minLen = Integer.MAX_VALUE;
         int prevJ = -1;
+        
         while (j < s.length()){
             cR = s.charAt(j);
-            if ( this.tMap.containsKey( cR ) ){
+            index = getIndexFromChar(cR);
+            if ( this.tMap[index] > 0 ){
                 if (prevJ != j){
                     q.offer(j);
-                    wMap.put(cR, wMap.getOrDefault(cR, 0) + 1);
+                    wMap[index] = wMap[index] + 1;
                 }
                 if (isValidWindow(wMap)){
                     if (minLen > j-i+1){
@@ -48,7 +61,8 @@ class Solution {
                         minLen = j-i+1;
                     }
                     cL = s.charAt(i);
-                    wMap.put(cL, wMap.getOrDefault(cL, 0) - 1);
+                    index = getIndexFromChar(cL);
+                    wMap[index] = wMap[index] - 1;
                     i = q.poll();
                     prevJ = j--;
                 }
