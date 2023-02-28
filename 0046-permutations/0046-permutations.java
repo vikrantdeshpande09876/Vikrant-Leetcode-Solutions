@@ -1,18 +1,18 @@
 class Solution {
     List<List<Integer>> res;
     
-    public void backtrack(int[] nums, List<Integer> candidate, Set<Integer> visited){
+    public void backtrack(int[] nums, List<Integer> candidate, int[] visited){
         if (candidate.size() == nums.length){
             res.add(new ArrayList<Integer>(candidate));
             return;
         }
         
-        for (int i=0; i<nums.length; i++){
-            if (!visited.contains(i)){
-                candidate.add(nums[i]);
-                visited.add(i);
+        for (int n : nums){
+            if (visited[n+10] == 0){
+                candidate.add(n);
+                visited[n+10] = 1;
                 backtrack(nums, candidate, visited);
-                visited.remove(i);
+                visited[n+10] = 0;
                 candidate.remove(candidate.size()-1);
             }
         }
@@ -20,7 +20,7 @@ class Solution {
     
     public List<List<Integer>> permute(int[] nums) {
         res = new ArrayList<List<Integer>>();
-        backtrack(nums, new ArrayList<Integer>(), new HashSet<>());
+        backtrack(nums, new ArrayList<Integer>(), new int[21]);
         return res;
     }
 }
