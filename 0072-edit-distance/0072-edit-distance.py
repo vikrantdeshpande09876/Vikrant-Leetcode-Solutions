@@ -15,7 +15,6 @@ class Solution:
         for i in range(1, m+1):
             dp[i][0] = i
         
-        print(m, n)
         for i in range(1, m+1):
             for j in range(1, n+1):
                 if word1[i-1] == word2[j-1]:
