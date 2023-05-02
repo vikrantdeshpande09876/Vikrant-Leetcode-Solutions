@@ -3,16 +3,16 @@ class Solution:
         
         def dfs(i, j, k):
             m, n = len(board), len(board[0])
-            if i >= m or i < 0 or j >= n or j < 0 or word[k]!=board[i][j]:
-                return False
-            
             if k == len(word)-1:
                 return True            
 
             curr = board[i][j]
             board[i][j] = '#'
             for move in [[0,1], [1,0], [-1,0], [0,-1]]:
-                if dfs(i+move[0], j+move[1], k+1):
+                i_new, j_new = i+move[0], j+move[1]
+                if i_new >= m or i_new < 0 or j_new >= n or j_new < 0 or word[k+1]!=board[i_new][j_new]:
+                    continue
+                if dfs(i_new, j_new, k+1):
                     return True
             board[i][j] = curr
             
