@@ -14,20 +14,22 @@
  * }
  */
 class Solution {
-    List<Integer> res;
-    
-    public void dfs(TreeNode curr){
-        if (curr == null)
-            return;
-        dfs(curr.left);
-        res.add(curr.val);
-        dfs(curr.right);
-    }
-        
-        
     public List<Integer> inorderTraversal(TreeNode root) {
-        res = new LinkedList<Integer>();
-        dfs(root);
+        List<Integer> res = new LinkedList<>();
+        
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode curr = root;
+        
+        while (st.size() > 0 || curr != null){
+            while (curr != null){
+                st.push(curr);
+                curr = curr.left;
+            }
+            curr = st.pop();
+            res.add(curr.val);
+            curr = curr.right;
+        }
+        
         return res;
     }
 }
