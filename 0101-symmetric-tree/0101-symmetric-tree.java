@@ -15,15 +15,30 @@
  */
 class Solution {
     public boolean dfsRecCheck(TreeNode l, TreeNode r){
-        if (l==null && r==null)
-            return true;
-        if (l==null || r==null || l.val != r.val)
-            return false;
+        
         
         return dfsRecCheck(l.left, r.right) && dfsRecCheck(l.right, r.left);
     }
     
     public boolean isSymmetric(TreeNode root) {
-        return dfsRecCheck(root, root);
+        Stack<TreeNode> st = new Stack();
+        st.push(root);
+        st.push(root);
+        while (st.size() > 0){
+            TreeNode l = st.pop();
+            TreeNode r = st.pop();
+            if ((l==null && r!=null) || (l!=null && r==null))
+                return false;
+            if (l!=null & r!=null){
+                if (l.val != r.val)
+                    return false;
+
+                st.push(l.left);
+                st.push(r.right);
+                st.push(l.right);
+                st.push(r.left);
+            }
+        }
+        return true;
     }
 }
