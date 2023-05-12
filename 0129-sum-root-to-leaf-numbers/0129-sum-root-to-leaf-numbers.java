@@ -16,14 +16,14 @@
 class Solution {
     int res;
     
-    public void dfs(TreeNode node, String curr){
+    public void dfs(TreeNode node, int curr){
         if (node == null){
             return;
         }
         
-        curr += ""+node.val;
+        curr = curr*10 + node.val;
         if (node.left==null && node.right==null){
-            res += Integer.parseInt(curr);
+            res += curr;
             return;
         }
         
@@ -33,7 +33,7 @@ class Solution {
     
     public int sumNumbers(TreeNode root) {
         res = 0;
-        dfs(root, "");
+        dfs(root, res);
         return res;
     }
 }
