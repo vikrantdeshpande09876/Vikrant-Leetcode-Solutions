@@ -17,9 +17,7 @@ class Solution {
     int res;
     
     public void dfs(TreeNode node, String curr){
-        System.out.println(curr);
         if (node == null){
-            // res += Integer.parseInt(curr);
             return;
         }
         
